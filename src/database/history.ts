@@ -49,3 +49,12 @@ export const saveToHistory = (s: string, userId: string): string => {
 
   return storedHistory ? storedHistory.id : createdHistory;
 };
+
+export const getUserHistory = (userId: string): History[] => {
+  const allHistory = history.list();
+  const filtered = allHistory.filter(history =>
+    history.searchedBy.includes(userId)
+  );
+
+  return filtered;
+};

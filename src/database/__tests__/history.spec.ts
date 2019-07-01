@@ -1,5 +1,5 @@
 import { users, createUser, getUserById } from "../user";
-import { history, getHistory, saveToHistory } from "../history";
+import { history, getHistory, getUserHistory, saveToHistory } from "../history";
 
 describe("history", () => {
   let usersToDelete: string[] = [];
@@ -41,5 +41,11 @@ describe("history", () => {
     expect(historiesToDelete.includes(storedHistory.id)).toBe(true);
     expect(historiesToDelete.includes(anotherStoredHistory.id)).toBe(true);
     expect(notStoredHistory).toBeNull();
+  });
+
+  test("get user's history", () => {
+    const firstUserHistories = getUserHistory(usersToDelete[0]);
+
+    expect(firstUserHistories).toHaveLength(2);
   });
 });
