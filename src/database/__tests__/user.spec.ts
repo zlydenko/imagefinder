@@ -1,4 +1,4 @@
-import { users, getUserByLogin, createUser } from "../user";
+import { users, getUserByLogin, getUserById, createUser } from "../user";
 
 describe("users", () => {
   let userToDelete: string = "";
@@ -30,5 +30,12 @@ describe("users", () => {
     expect(storedUser).not.toBeNull();
     expect(storedUser.login).toBe(user.login);
     expect(storedUser.id).toBe(userToDelete);
+  });
+
+  test("get user by id", () => {
+    const storedUser = getUserById(userToDelete);
+
+    expect(storedUser).not.toBeNull();
+    expect(storedUser.login).toBe(user.login);
   });
 });

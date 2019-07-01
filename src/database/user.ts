@@ -10,6 +10,13 @@ export interface User {
 
 export const users = store.collection<User>("users");
 
+export const getUserById = (id: string): User | null => {
+  const allUsers = users.list();
+  const filtered = allUsers.filter(user => user.id === id);
+
+  return filtered[0] || null;
+};
+
 export const getUserByLogin = (login: string): User | null => {
   const allUsers = users.list();
   const filtered = allUsers.filter(user => user.login === login);
