@@ -1,5 +1,5 @@
 import { users, createUser, getUserById } from "../user";
-import { history, saveToHistory } from "../history";
+import { history, getHistory, saveToHistory } from "../history";
 
 describe("history", () => {
   let usersToDelete: string[] = [];
@@ -31,5 +31,15 @@ describe("history", () => {
     expect(userTwo.history).toEqual(expect.arrayContaining([thirdId]));
 
     historiesToDelete = [...historiesToDelete, firstId, secondId, thirdId];
+  });
+
+  test("get stored history", () => {
+    const storedHistory = getHistory("dog");
+    const anotherStoredHistory = getHistory("cat");
+    const notStoredHistory = getHistory("pop");
+
+    expect(historiesToDelete.includes(storedHistory.id)).toBe(true);
+    expect(historiesToDelete.includes(anotherStoredHistory.id)).toBe(true);
+    expect(notStoredHistory).toBeNull();
   });
 });
