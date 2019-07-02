@@ -155,7 +155,7 @@ export default function Navbar(props) {
         })}
       >
         <div className={classes.drawerHeader} />
-        search & search results
+        {props.children}
       </main>
     </div>
   );
