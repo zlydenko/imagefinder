@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import ImageGrid from "./components/ImageGrid";
+import Pagination from "./components/Pagination";
 
 import Axios from "axios";
 
@@ -10,16 +11,23 @@ function App() {
   const [searchResults, setSearchResults] = React.useState([]);
   const [imagesFound, setTotalCount] = React.useState(null);
 
-  const search = value => {
-    setSearchValue(value);
-    Axios.post("http://192.168.0.35:9001/api/search", {
+  const search = (value, pageNumber = null) => {
+    let request = {
       username: "vasya",
       input: value
-    }).then(({ data: { data, total } }) => {
-      if (data.length === 0) setTotalCount(null);
-      setSearchResults(data);
-      setTotalCount(total);
-    });
+    };
+
+    if (pageNumber) request.page = pageNumber;
+
+    setSearchValue(value);
+
+    Axios.post("http://192.168.0.35:9001/api/search", request).then(
+      ({ data: { data, total } }) => {
+        if (data.length === 0) setTotalCount(null);
+        setSearchResults(data);
+        setTotalCount(total);
+      }
+    );
   };
 
   const likeImage = (imageUrl, state) => {
@@ -28,6 +36,10 @@ function App() {
       imageUrl,
       state
     });
+  };
+
+  const goToPage = pageNumber => {
+    search(searchValue, pageNumber + 2);
   };
 
   return (
@@ -46,6 +58,12 @@ function App() {
           />
         )}
       </Navbar>
+      {!!imagesFound && (
+        <Pagination
+          pagesCounter={Math.ceil(imagesFound / 24)}
+          goto={goToPage}
+        />
+      )}
     </div>
   );
 }
