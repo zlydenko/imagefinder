@@ -1,5 +1,7 @@
-import auth from "./auth";
+import auth from './auth';
+import giphyApi from './giphyApi';
 
 export default {
-  auth
+  auth,
+  giphyApi
 };

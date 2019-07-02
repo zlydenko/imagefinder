@@ -1,19 +1,56 @@
-import "../../env";
-import { verify } from "jsonwebtoken";
-import {Request,Response} from 'express'
+import '../../env';
+import { verify } from 'jsonwebtoken';
+import { Request, Response } from 'express';
 
-import database from "../../database";
+import database from '../../database';
 
 const { TOKEN_SALT } = process.env;
 
 interface DecodedToken {
-    id: 
+  data: {
+    id: string;
+  };
+  exp: number;
 }
 
-const checkToken = (req: Request,res:Response) => {
-    const {token} = req;
+const checkToken = (req: Request, res: Response) => {
+  const reqTime = +new Date();
+  const { token } = req.body;
+
+  if (!token)
+    res.send({
+      message: 'token is not provided',
+      auth: false
+    });
+
   const decodedToken = verify(token, TOKEN_SALT);
-  const user = database.user.byLogin(decodedToken.id);
+  const {
+    data: { id: userId },
+    exp
+  } = decodedToken as DecodedToken;
+  const tokenIsExpired = reqTime >= exp * 1000;
+
+  if (tokenIsExpired) {
+    res.send({
+      message: 'session is expired',
+      auth: false
+    });
+  }
+
+  const user = database.user.byId(userId);
+
+  if (user) {
+    res.send({
+      message: 'OK',
+      auth: true,
+      userLogin: user.login
+    });
+  } else {
+    res.send({
+      message: 'session token invalid',
+      auth: false
+    });
+  }
 };
 
 export default checkToken;
