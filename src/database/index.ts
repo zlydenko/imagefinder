@@ -1,6 +1,6 @@
-import { getUserHistory, saveToHistory, getHistory } from "./history";
-import { getUserLikes, storeLike } from "./like";
-import { getUserByLogin, createUser } from "./user";
+import { getUserHistory, saveToHistory, getHistory } from './history';
+import { getUserLikes, storeLike } from './like';
+import { getUserByLogin, getUserById, createUser } from './user';
 
 const database = {
   history: {
@@ -13,6 +13,7 @@ const database = {
     save: storeLike
   },
   user: {
+    byId: getUserById,
     byLogin: getUserByLogin,
     create: createUser
   }
