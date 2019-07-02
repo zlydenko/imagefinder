@@ -1,9 +1,10 @@
 import React from 'react';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <div>
-      <p>helol</p>
+      <Navbar activePageTitle={'Image finder'} authenticated={true} />
     </div>
   );
 }
