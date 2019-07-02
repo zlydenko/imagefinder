@@ -137,6 +137,11 @@ export default function Navbar(props) {
             <ListItem
               button
               key={text}
+              onClick={
+                props.currentPage === "home"
+                  ? props.goToHistory
+                  : props.goToMain
+              }
               disabled={props.currentPage === text.toLowerCase()}
             >
               <ListItemIcon>

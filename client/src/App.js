@@ -12,6 +12,7 @@ function App() {
   const [searchResults, setSearchResults] = React.useState([]);
   const [imagesFound, setTotalCount] = React.useState(null);
   const [loading, toggleLoading] = React.useState(false);
+  const [currentView, setCurrentView] = React.useState("main");
 
   const search = (value, pageNumber = null) => {
     toggleLoading(true);
@@ -47,27 +48,47 @@ function App() {
     search(searchValue, pageNumber + 2);
   };
 
+  const goToHistory = () => {
+    setTotalCount(null);
+    setSearchResults([]);
+    setCurrentView("history");
+  };
+
+  const goToMain = () => {
+    setCurrentView("main");
+  };
+
   return (
     <div>
       <Navbar
-        currentPage={"home"}
-        activePageTitle={"Image finder"}
+        currentPage={currentView === "main" ? "home" : "history"}
+        activePageTitle={
+          currentView === "main" ? "Image finder" : "Image finder / History"
+        }
+        goToMain={goToMain}
+        goToHistory={goToHistory}
         authenticated={true}
       >
-        <Search searchFn={search} />
-        {loading ? (
-          <CircularProgress />
+        {currentView === "main" ? (
+          <React.Fragment>
+            <Search searchFn={search} />
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              !!imagesFound && (
+                <ImageGrid
+                  images={searchResults}
+                  likeFn={likeImage}
+                  refetchFn={() => search(searchValue)}
+                />
+              )
+            )}
+          </React.Fragment>
         ) : (
-          !!imagesFound && (
-            <ImageGrid
-              images={searchResults}
-              likeFn={likeImage}
-              refetchFn={() => search(searchValue)}
-            />
-          )
+          <p>history page</p>
         )}
       </Navbar>
-      {!!imagesFound && (
+      {!!imagesFound && currentView === "main" && (
         <Pagination
           pagesCounter={Math.ceil(imagesFound / 24)}
           goto={goToPage}
