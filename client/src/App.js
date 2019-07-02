@@ -1,10 +1,14 @@
-import React from 'react';
-import Navbar from './components/Navbar';
+import React from "react";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div>
-      <Navbar activePageTitle={'Image finder'} authenticated={true} />
+      <Navbar
+        currentPage={"home"}
+        activePageTitle={"Image finder"}
+        authenticated={true}
+      />
     </div>
   );
 }
