@@ -1,22 +1,24 @@
-import '../../env';
-import axios, { AxiosResponse } from 'axios';
-import { Request, Response } from 'express';
+import "../../env";
+import axios, { AxiosResponse } from "axios";
+import { Request, Response } from "express";
 
-import database from '../../database';
+import database from "../../database";
 
 const { GIPHY_API_KEY } = process.env;
-const rootUrl = 'https://api.giphy.com/v1/gifs/search';
+const rootUrl = "https://api.giphy.com/v1/gifs/search";
 
 const searchImage = async (req: Request, res: Response) => {
   try {
     const { username, input, page } = req.body;
     const user = database.user.byLogin(username);
-    const { data: giphyResponse }: AxiosResponse<Giphy.Response> = await axios.get(rootUrl, {
+    const {
+      data: giphyResponse
+    }: AxiosResponse<Giphy.Response> = await axios.get(rootUrl, {
       params: {
         api_key: GIPHY_API_KEY,
         q: input,
-        count: 20,
-        offset: page ? page * 20 - 20 : 0
+        limit: 24,
+        offset: page ? page * 24 - 24 : 0
       }
     });
     const {
@@ -26,11 +28,12 @@ const searchImage = async (req: Request, res: Response) => {
     } = giphyResponse;
 
     if (status === 200) {
-      const filteredData = data.map(({ url, images }) => {
+      const filteredData = data.map(({ url, images, title }) => {
         const imageStored = database.like.byUrl(url);
-        const liked = (imageStored && imageStored.likedBy.includes(user.id)) || false;
+        const liked =
+          (imageStored && imageStored.likedBy.includes(user.id)) || false;
 
-        return { url, images, liked };
+        return { url, images, liked, title };
       });
 
       res.send({
@@ -39,7 +42,7 @@ const searchImage = async (req: Request, res: Response) => {
       });
     } else {
       res.send({
-        message: 'giphy API error'
+        message: "giphy API error"
       });
     }
   } catch (error) {

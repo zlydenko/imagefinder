@@ -57,3 +57,26 @@ export const storeLike = (url: string, userId: string) => {
 
   return storedLike ? storedLike.id : createdLike;
 };
+
+export const dislike = (url: string, userId: string) => {
+  const user = getUserById(userId);
+
+  if (!user) throw new Error("no user with this id found");
+
+  const storedLike = getLikeByUrl(url);
+
+  if (!storedLike) throw new Error("no image found");
+
+  if (storedLike.likedBy.length === 1) {
+    likes.delete(storedLike.id);
+  } else {
+    const userFilteredOut = storedLike.likedBy.filter(
+      likedUserId => likedUserId !== userId
+    );
+    const likeFilteredOut = user.likes.filter(
+      likeId => likeId !== storedLike.id
+    );
+    likes.update({ ...storedLike, likedBy: [...userFilteredOut] });
+    users.update({ ...user, likes: [...likeFilteredOut] });
+  }
+};
