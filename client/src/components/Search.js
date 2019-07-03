@@ -1,10 +1,10 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import SearchIcon from "@material-ui/icons/Search";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import SearchIcon from '@material-ui/icons/Search';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Search(props) {
   const classes = useStyles();
-  const [value, setSearchValue] = React.useState("");
+  const [value, setSearchValue] = React.useState(props.value);
 
   const search = () => {
     props.searchFn(value);
@@ -32,7 +32,7 @@ export default function Search(props) {
   };
 
   const keyCapture = e => {
-    if (e.key === "Enter") search();
+    if (e.key === 'Enter') search();
   };
 
   return (
@@ -53,12 +53,7 @@ export default function Search(props) {
         ),
         endAdornment: (
           <InputAdornment position="end">
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={search}
-            >
+            <Button variant="contained" color="primary" className={classes.button} onClick={search}>
               Go
               <Icon className={classes.rightIcon}>send</Icon>
             </Button>
