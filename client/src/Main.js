@@ -30,7 +30,7 @@ export default class Main extends React.Component {
   }
 
   checkToken = async token => {
-    const { data } = await Axios.post(`${process.env.REACT_APP_API_ROOT}/check_token`, {
+    const { data } = await Axios.post(`http://localhost:9001/api/check_token`, {
       token
     });
     const { auth, userLogin } = data;
@@ -53,7 +53,7 @@ export default class Main extends React.Component {
 
   logIn = async (login, password) => {
     try {
-      const { data } = await Axios.post(`${process.env.REACT_APP_API_ROOT}/login`, { login, password });
+      const { data } = await Axios.post(`http://localhost:9001/api/login`, { login, password });
       const { login: userLogin, token, message } = data;
 
       if (!userLogin || !token) {
@@ -77,7 +77,7 @@ export default class Main extends React.Component {
 
   register = async (login, password) => {
     try {
-      const { data } = await Axios.post(`${process.env.REACT_APP_API_ROOT}/register`, { login, password });
+      const { data } = await Axios.post(`http://localhost:9001/api/register`, { login, password });
       const { message } = data;
 
       if (message !== 'OK') {

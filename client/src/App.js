@@ -31,7 +31,7 @@ export default function App(props) {
 
     setSearchValue(value);
 
-    Axios.post(`${REACT_APP_API_ROOT}/search`, request)
+    Axios.post(`http://localhost:9001/api/search`, request)
       .then(({ data: { data, total } }) => {
         if (data.length === 0) setTotalCount(null);
         setSearchResults(data);
@@ -43,7 +43,7 @@ export default function App(props) {
   };
 
   const likeImage = (imageUrl, state) => {
-    Axios.post(`${REACT_APP_API_ROOT}/like`, {
+    Axios.post(`http://localhost:9001/api/like`, {
       username: props.username,
       imageUrl,
       state
@@ -69,7 +69,7 @@ export default function App(props) {
   const fetchHistory = () => {
     toggleHistoryLoading(true);
 
-    Axios.get(`${REACT_APP_API_ROOT}/history`, {
+    Axios.get(`http://localhost:9001/api/history`, {
       params: {
         username: props.username
       }
@@ -94,7 +94,7 @@ export default function App(props) {
   };
 
   const deleteHistory = historyId => {
-    Axios.delete(`${REACT_APP_API_ROOT}/history`, {
+    Axios.delete(`http://localhost:9001/api/history`, {
       data: {
         username: props.username,
         id: historyId
