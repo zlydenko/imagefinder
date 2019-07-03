@@ -18,8 +18,8 @@ server.use((_req, res, next) => {
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
-router.get('/login', controllers.auth.login);
-router.get('/check_token', controllers.auth.checkToken);
+router.post('/login', controllers.auth.login);
+router.post('/check_token', controllers.auth.checkToken);
 router.post('/register', controllers.auth.register);
 
 router.post('/search', controllers.giphyApi.search);

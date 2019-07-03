@@ -1,8 +1,8 @@
-import "../../env";
-import { Request, Response } from "express";
-import { sign } from "jsonwebtoken";
+import '../../env';
+import { Request, Response } from 'express';
+import { sign } from 'jsonwebtoken';
 
-import database from "../../database";
+import database from '../../database';
 
 const { PASS_SALT } = process.env;
 
@@ -12,7 +12,7 @@ const registerController = (req: Request, res: Response) => {
 
   if (storedUser) {
     res.send({
-      message: "username is already taken"
+      message: 'username is already taken'
     });
   }
 
@@ -20,7 +20,7 @@ const registerController = (req: Request, res: Response) => {
   database.user.create(login, hashedPassword);
 
   res.send({
-    message: "user successfully created"
+    message: 'OK'
   });
 };
 

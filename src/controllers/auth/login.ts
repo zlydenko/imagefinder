@@ -1,8 +1,8 @@
-import "../../env";
-import { Request, Response } from "express";
-import { sign } from "jsonwebtoken";
+import '../../env';
+import { Request, Response } from 'express';
+import { sign } from 'jsonwebtoken';
 
-import database from "../../database";
+import database from '../../database';
 
 const { PASS_SALT, TOKEN_SALT, TOKEN_EXPIRY } = process.env;
 
@@ -12,7 +12,7 @@ const loginController = (req: Request, res: Response) => {
 
   if (!storedUser) {
     res.send({
-      message: "user not found"
+      message: 'user not found'
     });
   }
 
@@ -35,7 +35,7 @@ const loginController = (req: Request, res: Response) => {
     });
   } else {
     res.send({
-      message: "wrong password"
+      message: 'wrong password'
     });
   }
 };
