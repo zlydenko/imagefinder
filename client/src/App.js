@@ -31,7 +31,7 @@ export default function App(props) {
 
     setSearchValue(value);
 
-    Axios.post(`https://movatest.herokuapp.com/api/search`, request)
+    Axios.post(`/api/search`, request)
       .then(({ data: { data, total } }) => {
         if (data.length === 0) setTotalCount(null);
         setSearchResults(data);
@@ -43,7 +43,7 @@ export default function App(props) {
   };
 
   const likeImage = (imageUrl, state) => {
-    Axios.post(`https://movatest.herokuapp.com/api/like`, {
+    Axios.post(`/api/like`, {
       username: props.username,
       imageUrl,
       state
@@ -69,7 +69,7 @@ export default function App(props) {
   const fetchHistory = () => {
     toggleHistoryLoading(true);
 
-    Axios.get(`https://movatest.herokuapp.com/api/history`, {
+    Axios.get(`/api/history`, {
       params: {
         username: props.username
       }
@@ -94,7 +94,7 @@ export default function App(props) {
   };
 
   const deleteHistory = historyId => {
-    Axios.delete(`https://movatest.herokuapp.com/api/history`, {
+    Axios.delete(`/api/history`, {
       data: {
         username: props.username,
         id: historyId
