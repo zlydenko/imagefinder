@@ -3,6 +3,8 @@ import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import ImageGrid from "./components/ImageGrid";
 import Pagination from "./components/Pagination";
+import History from "./components/History";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Axios from "axios";
@@ -85,7 +87,7 @@ function App() {
             )}
           </React.Fragment>
         ) : (
-          <p>history page</p>
+          <History username={"vasya"} />
         )}
       </Navbar>
       {!!imagesFound && currentView === "main" && (
