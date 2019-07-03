@@ -48,7 +48,7 @@ export default class Main extends React.Component {
   };
 
   deleteToken = () => {
-    localStorage.delete('session');
+    localStorage.removeItem('session');
   };
 
   logIn = async (login, password) => {
@@ -99,7 +99,7 @@ export default class Main extends React.Component {
     return (
       <React.Fragment>
         <Error message={errorMessage} errorVisible={errorVisible} closeError={this.closeError} />
-        {loading ? <CircularProgress /> : auth ? <App logOut={this.logOut} /> : <NotAuthed registerFn={this.register} logInFn={this.logIn} />}
+        {loading ? <CircularProgress /> : auth ? <App logOutFn={this.logOut} /> : <NotAuthed registerFn={this.register} logInFn={this.logIn} />}
       </React.Fragment>
     );
   }

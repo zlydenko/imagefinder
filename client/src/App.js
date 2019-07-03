@@ -117,6 +117,7 @@ export default function App(props) {
         activePageTitle={currentView === 'main' ? 'Image finder' : 'Image finder / History'}
         goToMain={goToMain}
         goToHistory={goToHistory}
+        logOutFn={props.logOutFn}
         authenticated={true}
       >
         {currentView === 'main' ? (
