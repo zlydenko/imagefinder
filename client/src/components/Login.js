@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Login(props) {
   const classes = useStyles();
+  const [currentView, setCurrentView] = React.useState('login');
   const [values, setValues] = React.useState({
     login: '',
     password: ''
@@ -29,22 +30,57 @@ export default function Login(props) {
 
   const login = () => {
     const { login, password } = values;
+    console.log('login', login, password);
+    console.log(props.logInFn);
     props.logInFn(login, password);
+  };
+
+  const register = async () => {
+    const { login, password } = values;
+    const result = await props.registerFn(login, password);
+
+    if (result) {
+      setValues({
+        login: '',
+        password: ''
+      });
+      setCurrentView('login');
+    }
   };
 
   return (
     <Container maxWidth="sm" style={{ marginTop: '8em' }}>
       <Card style={{ padding: '2em' }}>
         <Typography variant="h4" gutterBottom className={classes.heading}>
-          Login
+          {currentView === 'login' ? 'Login' : 'Register'}
         </Typography>
         <TextField className={classes.input} label="Login" value={values.login} onChange={handleChange('login')} variant="outlined" fullWidth />
         <TextField className={classes.input} label="Password" type="password" value={values.password} onChange={handleChange('password')} variant="outlined" fullWidth />
 
-        <Button fullWidth variant="contained" color="primary" onClick={login}>
-          Go
-          <Icon>send</Icon>
-        </Button>
+        {currentView === 'login' ? (
+          <React.Fragment>
+            <Button className={classes.input} fullWidth variant="contained" color="primary" onClick={login}>
+              Go
+              <Icon>send</Icon>
+            </Button>
+            <Button className={classes.input} fullWidth variant="contained" color="default" onClick={() => setCurrentView('register')}>
+              register
+              <Icon>pan_tool</Icon>
+            </Button>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Button className={classes.input} fullWidth variant="contained" color="primary" onClick={register}>
+              Create
+              <Icon>send</Icon>
+            </Button>
+
+            <Button className={classes.input} fullWidth variant="contained" color="default" onClick={() => setCurrentView('login')}>
+              <Icon>arrow_back</Icon>
+              back
+            </Button>
+          </React.Fragment>
+        )}
       </Card>
     </Container>
   );

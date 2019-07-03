@@ -11,7 +11,7 @@ import Axios from 'axios';
 
 const { REACT_APP_API_ROOT } = process.env;
 
-function App() {
+export default function App(props) {
   const [searchValue, setSearchValue] = React.useState('');
   const [searchResults, setSearchResults] = React.useState([]);
   const [imagesFound, setTotalCount] = React.useState(null);
@@ -132,5 +132,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

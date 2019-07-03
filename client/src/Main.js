@@ -3,6 +3,7 @@ import Axios from 'axios';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import Error from './components/Error';
 import App from './App';
 import NotAuthed from './NotAuthed';
 
@@ -10,7 +11,9 @@ export default class Main extends React.Component {
   state = {
     loading: true,
     auth: null,
-    user: null
+    user: null,
+    errorMessage: '',
+    errorVisible: false
   };
 
   async componentWillMount() {
@@ -54,13 +57,13 @@ export default class Main extends React.Component {
       const { login: userLogin, token, message } = data;
 
       if (!userLogin || !token) {
-        throw new Error(message);
+        throw message;
       }
 
-      this.setState({ user: userLogin });
+      this.setState({ user: userLogin, auth: true });
       this.saveToken(token);
     } catch (error) {
-      console.log(error);
+      this.setState({ errorMessage: error, errorVisible: true });
     }
   };
 
@@ -80,13 +83,24 @@ export default class Main extends React.Component {
       if (message !== 'OK') {
         throw message;
       }
+
+      return true;
     } catch (error) {
-      console.log(error);
+      this.setState({ errorMessage: error, errorVisible: true });
     }
   };
 
+  closeError = () => {
+    this.setState({ errorMessage: '', errorVisible: false });
+  };
+
   render() {
-    const { auth, loading } = this.state;
-    return loading ? <CircularProgress /> : auth ? <App /> : <NotAuthed registerFn={this.register} logOut={this.logOut} logInFn={this.logIn} />;
+    const { auth, loading, errorMessage, errorVisible } = this.state;
+    return (
+      <React.Fragment>
+        <Error message={errorMessage} errorVisible={errorVisible} closeError={this.closeError} />
+        {loading ? <CircularProgress /> : auth ? <App logOut={this.logOut} /> : <NotAuthed registerFn={this.register} logInFn={this.logIn} />}
+      </React.Fragment>
+    );
   }
 }

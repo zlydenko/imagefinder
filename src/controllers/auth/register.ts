@@ -11,7 +11,7 @@ const registerController = (req: Request, res: Response) => {
   const storedUser = database.user.byLogin(login);
 
   if (storedUser) {
-    res.send({
+    return res.send({
       message: 'username is already taken'
     });
   }
@@ -19,7 +19,7 @@ const registerController = (req: Request, res: Response) => {
   const hashedPassword = sign(password, PASS_SALT);
   database.user.create(login, hashedPassword);
 
-  res.send({
+  return res.send({
     message: 'OK'
   });
 };
