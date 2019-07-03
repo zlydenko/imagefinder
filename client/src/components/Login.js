@@ -30,8 +30,6 @@ export default function Login(props) {
 
   const login = () => {
     const { login, password } = values;
-    console.log('login', login, password);
-    console.log(props.logInFn);
     props.logInFn(login, password);
   };
 
@@ -63,7 +61,19 @@ export default function Login(props) {
               Go
               <Icon>send</Icon>
             </Button>
-            <Button className={classes.input} fullWidth variant="contained" color="default" onClick={() => setCurrentView('register')}>
+            <Button
+              className={classes.input}
+              fullWidth
+              variant="contained"
+              color="default"
+              onClick={() => {
+                setValues({
+                  login: '',
+                  password: ''
+                });
+                setCurrentView('register');
+              }}
+            >
               register
               <Icon>pan_tool</Icon>
             </Button>
