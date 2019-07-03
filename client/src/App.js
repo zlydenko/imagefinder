@@ -20,8 +20,8 @@ export default function App(props) {
   const [history, setHistory] = React.useState([]);
   const [historyLoading, toggleHistoryLoading] = React.useState(false);
 
-  const search = (value, pageNumber = null) => {
-    toggleLoading(true);
+  const search = (value, pageNumber = null, isInitial = true) => {
+    if (isInitial) toggleLoading(true);
     let request = {
       username: 'vasya',
       input: value
@@ -38,7 +38,7 @@ export default function App(props) {
         setTotalCount(total);
       })
       .finally(() => {
-        toggleLoading(false);
+        if (isInitial) toggleLoading(false);
       });
   };
 
@@ -123,7 +123,7 @@ export default function App(props) {
         {currentView === 'main' ? (
           <React.Fragment>
             <Search searchFn={search} value={searchValue} />
-            {loading ? <CircularProgress /> : !!imagesFound && <ImageGrid images={searchResults} likeFn={likeImage} refetchFn={() => search(searchValue)} />}
+            {loading ? <CircularProgress /> : !!imagesFound && <ImageGrid images={searchResults} likeFn={likeImage} refetchFn={() => search(searchValue, undefined, false)} />}
           </React.Fragment>
         ) : (
           <History deleteHistory={deleteHistory} goToHistory={goToHistoryElement} history={history} loading={historyLoading} />
