@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon .",
     "test": "jest",
-    "start": "tsc ; node dist/server"
+    "ts:build": "tsc",
+    "start": "node dist/server"
   },
   "repository": {
     "type": "git",
