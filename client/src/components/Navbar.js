@@ -125,6 +125,13 @@ export default function Navbar(props) {
           <IconButton onClick={handleDrawerClose}>{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
         </div>
         <Divider />
+        <ListItem>
+          <ListItemIcon>
+            <Icon>people</Icon>
+          </ListItemIcon>
+          <ListItemText primary={props.username} />
+        </ListItem>
+        <Divider />
         <List>
           {['Home', 'History'].map((text, index) => (
             <ListItem button key={text} onClick={props.currentPage === 'home' ? props.goToHistory : props.goToMain} disabled={props.currentPage === text.toLowerCase()}>

@@ -23,7 +23,7 @@ export default function App(props) {
   const search = (value, pageNumber = null, isInitial = true) => {
     if (isInitial) toggleLoading(true);
     let request = {
-      username: 'vasya',
+      username: props.username,
       input: value
     };
 
@@ -44,7 +44,7 @@ export default function App(props) {
 
   const likeImage = (imageUrl, state) => {
     Axios.post(`${REACT_APP_API_ROOT}/like`, {
-      username: 'vasya',
+      username: props.username,
       imageUrl,
       state
     });
@@ -55,6 +55,7 @@ export default function App(props) {
   };
 
   const goToHistory = () => {
+    setSearchValue('');
     setTotalCount(null);
     setSearchResults([]);
     fetchHistory();
@@ -70,7 +71,7 @@ export default function App(props) {
 
     Axios.get(`${REACT_APP_API_ROOT}/history`, {
       params: {
-        username: 'vasya'
+        username: props.username
       }
     })
       .then(({ data }) => {
@@ -95,7 +96,7 @@ export default function App(props) {
   const deleteHistory = historyId => {
     Axios.delete(`${REACT_APP_API_ROOT}/history`, {
       data: {
-        username: 'vasya',
+        username: props.username,
         id: historyId
       }
     })
@@ -119,6 +120,7 @@ export default function App(props) {
         goToHistory={goToHistory}
         logOutFn={props.logOutFn}
         authenticated={true}
+        username={props.username}
       >
         {currentView === 'main' ? (
           <React.Fragment>

@@ -95,11 +95,11 @@ export default class Main extends React.Component {
   };
 
   render() {
-    const { auth, loading, errorMessage, errorVisible } = this.state;
+    const { auth, loading, errorMessage, errorVisible, user } = this.state;
     return (
       <React.Fragment>
         <Error message={errorMessage} errorVisible={errorVisible} closeError={this.closeError} />
-        {loading ? <CircularProgress /> : auth ? <App logOutFn={this.logOut} /> : <NotAuthed registerFn={this.register} logInFn={this.logIn} />}
+        {loading ? <CircularProgress /> : auth ? <App username={user} logOutFn={this.logOut} /> : <NotAuthed registerFn={this.register} logInFn={this.logIn} />}
       </React.Fragment>
     );
   }
