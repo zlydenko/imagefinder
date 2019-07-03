@@ -1,5 +1,5 @@
-import { users, getUserById } from "./user";
-import store from "./store";
+import { users, getUserById } from './user';
+import store from './store';
 
 export interface Like {
   id: string;
@@ -7,7 +7,7 @@ export interface Like {
   likedBy: string[];
 }
 
-export const likes = store.collection<Like>("likes");
+export const likes = store.collection<Like>('likes');
 
 export const getLikeById = (id: string): Like | null => {
   const allLikes = likes.list();
@@ -33,7 +33,7 @@ export const getUserLikes = (userId: string): Like[] => {
 export const storeLike = (url: string, userId: string) => {
   const user = getUserById(userId);
 
-  if (!user) throw new Error("no user with this id found");
+  if (!user) throw new Error('no user with this id found');
 
   const storedLike = getLikeByUrl(url);
   let createdLike = null;
@@ -56,4 +56,24 @@ export const storeLike = (url: string, userId: string) => {
   });
 
   return storedLike ? storedLike.id : createdLike;
+};
+
+export const dislike = (url: string, userId: string) => {
+  const user = getUserById(userId);
+
+  if (!user) throw new Error('no user with this id found');
+
+  const storedLike = getLikeByUrl(url);
+
+  if (!storedLike) throw new Error('no image found');
+
+  if (storedLike.likedBy.length === 1) {
+    likes.delete(storedLike.id);
+  } else {
+    const userFilteredOut = storedLike.likedBy.filter(likedUserId => likedUserId !== userId);
+    likes.update({ ...storedLike, likedBy: [...userFilteredOut] });
+  }
+
+  const likeFilteredOut = user.likes.filter(likeId => likeId !== storedLike.id);
+  users.update({ ...user, likes: [...likeFilteredOut] });
 };

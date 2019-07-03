@@ -1,5 +1,5 @@
 import '../../env';
-import { verify } from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 
 import database from '../../database';
@@ -7,9 +7,7 @@ import database from '../../database';
 const { TOKEN_SALT } = process.env;
 
 interface DecodedToken {
-  data: {
-    id: string;
-  };
+  id: string;
   exp: number;
 }
 
@@ -23,11 +21,8 @@ const checkToken = (req: Request, res: Response) => {
       auth: false
     });
 
-  const decodedToken = verify(token, TOKEN_SALT);
-  const {
-    data: { id: userId },
-    exp
-  } = decodedToken as DecodedToken;
+  const decodedToken = jwt.verify(token, TOKEN_SALT);
+  const { id: userId, exp } = decodedToken as DecodedToken;
   const tokenIsExpired = reqTime >= exp * 1000;
 
   if (tokenIsExpired) {

@@ -15,10 +15,13 @@ const searchImage = async (req: Request, res: Response) => {
       params: {
         api_key: GIPHY_API_KEY,
         q: input,
-        count: 20,
-        offset: page ? page * 20 - 20 : 0
+        limit: 24,
+        offset: page ? page * 24 - 24 : 0
       }
     });
+
+    database.history.save(input, user.id);
+
     const {
       data,
       pagination: { total_count: total },
@@ -26,11 +29,11 @@ const searchImage = async (req: Request, res: Response) => {
     } = giphyResponse;
 
     if (status === 200) {
-      const filteredData = data.map(({ url, images }) => {
+      const filteredData = data.map(({ url, images, title }) => {
         const imageStored = database.like.byUrl(url);
         const liked = (imageStored && imageStored.likedBy.includes(user.id)) || false;
 
-        return { url, images, liked };
+        return { url, images, liked, title };
       });
 
       res.send({
