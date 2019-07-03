@@ -55,7 +55,7 @@ export default function Search(props) {
           <InputAdornment position="end">
             <Button variant="contained" color="primary" className={classes.button} onClick={search}>
               Go
-              <Icon className={classes.rightIcon}>send</Icon>
+              <Icon>send</Icon>
             </Button>
           </InputAdornment>
         )
