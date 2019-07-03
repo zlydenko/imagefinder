@@ -1,6 +1,7 @@
 import './env';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import { resolve } from 'path';
 
 import controllers from './controllers';
 
@@ -17,6 +18,11 @@ server.use((_req, res, next) => {
 });
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
+server.use(express.static(resolve(__dirname, '../client/build')));
+
+router.get('/', (req, res) => {
+  res.sendFile(resolve(__dirname, '../client/build/index.html'));
+});
 
 router.post('/login', controllers.auth.login);
 router.post('/check_token', controllers.auth.checkToken);

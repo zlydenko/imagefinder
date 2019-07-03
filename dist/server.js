@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("./env");
 const express = require("express");
 const bodyParser = require("body-parser");
+const path_1 = require("path");
 const controllers_1 = require("./controllers");
 const PORT = process.env.PORT || 9001;
 const server = express();
@@ -15,6 +16,10 @@ server.use((_req, res, next) => {
 });
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
+server.use(express.static(path_1.resolve(__dirname, '../client/build')));
+router.get('/', (req, res) => {
+    res.sendFile(path_1.resolve(__dirname, '../client/build/index.html'));
+});
 router.post('/login', controllers_1.default.auth.login);
 router.post('/check_token', controllers_1.default.auth.checkToken);
 router.post('/register', controllers_1.default.auth.register);
