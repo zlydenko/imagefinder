@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/zlydenko/imagefinder/issues"
   },
-  "homepage": "https://github.com/zlydenko/imagefinder#readme",
+  "homepage": "https://zlydenko.github.io/imagefinder",
   "devDependencies": {
     "jest": "^24.8.0",
     "nodemon": "^1.19.1",
